@@ -1,8 +1,3 @@
-# author:HuangEnbo
-# 是对手工标注数据的处理
-# 手工标注的结果是RGB模式，需要先转换，保存时也有技巧
-# 本程序只负责对单张.png进行处理
-
 import os
 import numpy as np 
 
@@ -15,7 +10,7 @@ if __name__ == '__main__':
 
         np.set_printoptions(threshold=np.inf) #打印时全部打印出来，不打省略号
 
-        image = '01.png' # 此时的.png 其实是RGB模式
+        image = 'XXX' 
 
         #LIP配色方案
         palette=[] 
@@ -47,7 +42,7 @@ if __name__ == '__main__':
                 
         encoded = np.array(Image.open(image))
 
-        annotation = np.bitwise_or(np.bitwise_or( # RGB 模式转换为单通道，每个像素等于label标签, 来自标注工具的readme文件
+        annotation = np.bitwise_or(np.bitwise_or( 
                 encoded[:, :, 0].astype(np.uint32),
                 encoded[:, :, 1].astype(np.uint32) << 8),
                 encoded[:, :, 2].astype(np.uint32) << 16)
@@ -56,7 +51,7 @@ if __name__ == '__main__':
         #print("annotation.shape:{}".format(annotation.shape))
         #print(np.unique(annotation))
 
-        anno = Image.fromarray(np.uint8(annotation)) #只有这种方法能够保证image的像素是numpy array的原值
+        anno = Image.fromarray(np.uint8(annotation)) 
 
         anno.putpalette(palette)
         anno.save(r'annatater'+image.split('.')[0]+'.png')
